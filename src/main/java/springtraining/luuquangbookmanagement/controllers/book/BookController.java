@@ -31,7 +31,7 @@ public class BookController {
     }
 
 
-    @PostMapping("getFilter")
+    @PostMapping("filter")
     public GetBooksResponseDTO getBooks(@RequestBody BookFilterDTO bookFilterDTO) {
         return bookService.getBooks(bookFilterDTO);
     }

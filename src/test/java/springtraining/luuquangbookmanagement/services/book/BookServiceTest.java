@@ -39,10 +39,6 @@ public class BookServiceTest {
     @InjectMocks
     private BookService bookService;
 
-    @Mock
-    private ModelMapper modelMapper;
-
-
     @Test
     public void getBookByIdSuccess() {
         Book book = BookMock.createBook();

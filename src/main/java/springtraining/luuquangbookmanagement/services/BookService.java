@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import springtraining.luuquangbookmanagement.Converter.Converter;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
@@ -29,10 +30,10 @@ public class BookService {
     private UserRepository userRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private UserProvider userProvider;
 
     @Autowired
-    private UserProvider userProvider;
+    private Converter converter;
 
     public GetBooksResponseDTO getBooks(BookFilterDTO bookFilter) {
         final int page = bookFilter.getPage();
@@ -62,7 +63,7 @@ public class BookService {
     public void addBook(AddBookRequestDTO bookRequest) {
         UserDetailsImpl userdetails = userProvider.getCurrentUser();
         User user = userRepository.findById(userdetails.getId());
-        Book book = convertAddBookDTOToBookEntity(bookRequest);
+        Book book = converter.convertAddBookDTOToBookEntity(bookRequest);
         book.setUser(user);
         book.setCreatedAt(new Date());
         bookRepository.save(book);
@@ -83,17 +84,9 @@ public class BookService {
         }
         UserDetailsImpl userdetails = userProvider.getCurrentUser();
         User user = userRepository.findById(userdetails.getId());
-        Book book = convertUpdateBookDTOToBookEntity(bookRequest);
+        Book book = converter.convertUpdateBookDTOToBookEntity(bookRequest);
         book.setUser(user);
         book.setCreatedAt(new Date());
         bookRepository.save(book);
-    }
-
-    private Book convertAddBookDTOToBookEntity(AddBookRequestDTO bookDTO) {
-        return modelMapper.map(bookDTO, Book.class);
-    }
-
-    private Book convertUpdateBookDTOToBookEntity(UpdateBookRequestDTO bookDTO) {
-        return modelMapper.map(bookDTO, Book.class);
     }
 }
