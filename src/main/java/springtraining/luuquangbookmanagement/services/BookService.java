@@ -11,6 +11,7 @@ import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequest
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
+import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.providers.UserProvider;
 import springtraining.luuquangbookmanagement.repositories.BookRepository;
@@ -57,7 +58,7 @@ public class BookService {
         if (book != null) {
             return book;
         }
-        throw new NotFoundException("Book ID " + id + " is not found.");
+        throw new BookNotFoundException(id);
     }
 
     public void addBook(AddBookRequestDTO bookRequest) {
@@ -72,7 +73,7 @@ public class BookService {
     public void deleteById(long id) {
         Book book = bookRepository.findById(id);
         if (book == null) {
-            throw new NotFoundException("Book ID " + id + " is not found.");
+            throw new BookNotFoundException(id);
         }
         bookRepository.deleteById(id);
     }
@@ -80,7 +81,7 @@ public class BookService {
     public void update(long id, UpdateBookRequestDTO bookRequest) {
         Book foundBook = bookRepository.findById(id);
         if (foundBook == null) {
-            throw new NotFoundException("Book with id %ld not found");
+            throw new BookNotFoundException(id);
         }
         UserDetailsImpl userdetails = userProvider.getCurrentUser();
         User user = userRepository.findById(userdetails.getId());
