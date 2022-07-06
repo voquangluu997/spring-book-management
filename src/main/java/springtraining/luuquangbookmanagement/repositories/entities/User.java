@@ -44,7 +44,7 @@ public class User {
     private Boolean enabled = true;
 
     @OneToMany(mappedBy = "user")
-    List<Book> books;
+    private List<Book> books;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
