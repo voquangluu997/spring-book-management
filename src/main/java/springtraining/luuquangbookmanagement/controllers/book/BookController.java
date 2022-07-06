@@ -11,18 +11,13 @@ import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.services.BookService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
-
-    @GetMapping
-    public GetBooksResponseDTO getBooks(@RequestParam String search, @RequestParam int page, @RequestParam int limit, @RequestParam String orderBy) {
-        final BookFilterDTO dto = BookFilterDTO.builder().page(page).search(search).limit(limit).orderBy(orderBy)
-                .build();
-        return bookService.getBooks(dto);
-    }
 
     @GetMapping("/{id}")
     public Book getById(@PathVariable long id) throws NotFoundException {
@@ -31,21 +26,26 @@ public class BookController {
 
     @Secured("ADMIN")
     @PostMapping
-    public Book addBook(@RequestBody AddBookRequestDTO bookRequest) {
-        System.out.println(bookRequest);
-        return bookService.addBook(bookRequest);
+    public void addBook(@Valid @RequestBody AddBookRequestDTO bookRequest) {
+        bookService.addBook(bookRequest);
+    }
+
+
+    @PostMapping("getFilter")
+    public GetBooksResponseDTO getBooks(@RequestBody BookFilterDTO bookFilterDTO) {
+        return bookService.getBooks(bookFilterDTO);
     }
 
     @Secured("ADMIN")
     @DeleteMapping("/{id}")
-    public Book deleteBook(@PathVariable long id) throws NotFoundException {
-        return bookService.deleteById(id);
+    public void deleteBook(@PathVariable long id) {
+        bookService.deleteById(id);
     }
 
     @Secured("ADMIN")
     @PutMapping("/{id}")
-    public Book update(@PathVariable long id, @RequestBody UpdateBookRequestDTO bookRequest) throws NotFoundException {
-        return bookService.update(id, bookRequest);
+    public void update(@PathVariable long id, @RequestBody UpdateBookRequestDTO bookRequest) {
+        bookService.update(id, bookRequest);
     }
 
 }

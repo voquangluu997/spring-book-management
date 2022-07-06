@@ -1,25 +1,24 @@
 package springtraining.luuquangbookmanagement.services;
 
-import org.aspectj.weaver.ast.Not;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
+import springtraining.luuquangbookmanagement.providers.UserProvider;
 import springtraining.luuquangbookmanagement.repositories.BookRepository;
 import springtraining.luuquangbookmanagement.repositories.UserRepository;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.repositories.entities.User;
+import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class BookService {
@@ -32,6 +31,8 @@ public class BookService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UserProvider userProvider;
 
     public GetBooksResponseDTO getBooks(BookFilterDTO bookFilter) {
         final int page = bookFilter.getPage();
@@ -41,7 +42,6 @@ public class BookService {
                 "%" + bookFilter.getSearch() + "%",
                 paging,
                 bookFilter.getOrderBy());
-        System.out.println(bookPage);
         return GetBooksResponseDTO.builder()
                 .books(bookPage.getContent())
                 .currentPage(bookPage.getNumber())
@@ -53,49 +53,40 @@ public class BookService {
     public Book getById(long id) throws
             NotFoundException {
         Book book = bookRepository.findById(id);
-        if (book != null ) {
+        if (book != null) {
             return book;
         }
         throw new NotFoundException("Book ID " + id + " is not found.");
     }
 
-    public Book addBook(AddBookRequestDTO bookRequest) {
-        if (!userRepository.existsById(bookRequest.getUserId())) {
-            throw new NotFoundException("User not found");
-        }
-        User user = userRepository.findById(bookRequest.getUserId());
+    public void addBook(AddBookRequestDTO bookRequest) {
+        UserDetailsImpl userdetails = userProvider.getCurrentUser();
+        User user = userRepository.findById(userdetails.getId());
         Book book = convertAddBookDTOToBookEntity(bookRequest);
         book.setUser(user);
         book.setCreatedAt(new Date());
-        return bookRepository.save(book);
+        bookRepository.save(book);
     }
 
-    @Secured("ADMIN")
-    public Book deleteById(long id) throws NotFoundException {
+    public void deleteById(long id) {
         Book book = bookRepository.findById(id);
-        if (book.getEnabled()) {
-            return bookRepository.deleteById(id);
+        if (book == null) {
+            throw new NotFoundException("Book ID " + id + " is not found.");
         }
-        throw new NotFoundException("Book ID " + id + " is not found.");
+        bookRepository.deleteById(id);
     }
 
-    public Book update(long id, UpdateBookRequestDTO bookRequest) {
+    public void update(long id, UpdateBookRequestDTO bookRequest) {
         Book foundBook = bookRepository.findById(id);
-        if(foundBook==null){
+        if (foundBook == null) {
             throw new NotFoundException("Book with id %ld not found");
         }
-        final long userId = bookRequest.getUserId();
-        if ((Long) userId != null) {
-            if (!userRepository.existsById(bookRequest.getUserId())) {
-                throw new NotFoundException("User not found");
-            }
-        }
-
-        User user = userRepository.findById(bookRequest.getUserId());
+        UserDetailsImpl userdetails = userProvider.getCurrentUser();
+        User user = userRepository.findById(userdetails.getId());
         Book book = convertUpdateBookDTOToBookEntity(bookRequest);
         book.setUser(user);
         book.setCreatedAt(new Date());
-        return bookRepository.save(book);
+        bookRepository.save(book);
     }
 
     private Book convertAddBookDTOToBookEntity(AddBookRequestDTO bookDTO) {

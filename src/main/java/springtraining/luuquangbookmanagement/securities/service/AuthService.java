@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import springtraining.luuquangbookmanagement.controllers.auth.AuthController;
+import springtraining.luuquangbookmanagement.controllers.auth.dto.LoginRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.auth.dto.RegisterRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.user.dto.UserResponseDTO;
 import springtraining.luuquangbookmanagement.exceptions.BadRequestException;
@@ -40,7 +40,7 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
 
 
-    public UserResponseDTO login(AuthController.LoginRequestDTO loginRequest) throws Exception {
+    public UserResponseDTO login(LoginRequestDTO loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail());
         if (user == null)
             throw new NotFoundException("User with email " + loginRequest.getEmail() + " not found ");

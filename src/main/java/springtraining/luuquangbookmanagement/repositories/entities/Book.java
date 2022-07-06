@@ -24,7 +24,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private long id;
+    long id;
 
     @Column
     @NotNull

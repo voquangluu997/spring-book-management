@@ -2,6 +2,8 @@ package springtraining.luuquangbookmanagement.securities.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +11,8 @@ import springtraining.luuquangbookmanagement.repositories.entities.User;
 
 import java.util.*;
 
+@Getter
+@Setter
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -51,33 +55,11 @@ public class UserDetailsImpl implements UserDetails {
         );
     }
 
-    public long getId() {
-        return id;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public String getFirstName() {
-        return username;
-    }
-
-    public String getLastName() {
-        return username;
-    }
-
 
     @Override
     public boolean isAccountNonExpired() {

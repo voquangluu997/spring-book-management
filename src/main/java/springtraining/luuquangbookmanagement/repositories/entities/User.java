@@ -19,7 +19,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    long id;
 
     @Column(unique = true)
     @NotNull
@@ -50,6 +50,5 @@ public class User {
     @JoinColumn(name = "role_id")
     @JsonIgnoreProperties("users")
     private Role role;
-
 
 }
