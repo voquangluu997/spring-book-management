@@ -1,6 +1,5 @@
 package springtraining.luuquangbookmanagement.services;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,8 +61,8 @@ public class BookService {
     }
 
     public void addBook(AddBookRequestDTO bookRequest) {
-        UserDetailsImpl userdetails = userProvider.getCurrentUser();
-        User user = userRepository.findById(userdetails.getId());
+        UserDetailsImpl userDetails = userProvider.getCurrentUser();
+        User user = userRepository.findById(userDetails.getId());
         Book book = converter.convertAddBookDTOToBookEntity(bookRequest);
         book.setUser(user);
         book.setCreatedAt(new Date());
@@ -78,16 +77,13 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public void update(long id, UpdateBookRequestDTO bookRequest) {
+    public void updateBook(long id, UpdateBookRequestDTO bookRequest) {
         Book foundBook = bookRepository.findById(id);
         if (foundBook == null) {
             throw new BookNotFoundException(id);
         }
-        UserDetailsImpl userdetails = userProvider.getCurrentUser();
-        User user = userRepository.findById(userdetails.getId());
         Book book = converter.convertUpdateBookDTOToBookEntity(bookRequest);
-        book.setUser(user);
-        book.setCreatedAt(new Date());
+        book.setUpdatedAt(new Date());
         bookRepository.save(book);
     }
 }

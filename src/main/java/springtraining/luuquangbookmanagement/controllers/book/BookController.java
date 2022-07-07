@@ -38,14 +38,14 @@ public class BookController {
 
     @Secured("ADMIN")
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable long id) {
+    public void delete(@PathVariable long id) {
         bookService.deleteById(id);
     }
 
     @Secured("ADMIN")
     @PutMapping("/{id}")
     public void update(@PathVariable long id, @RequestBody UpdateBookRequestDTO bookRequest) {
-        bookService.update(id, bookRequest);
+        bookService.updateBook(id, bookRequest);
     }
 
 }

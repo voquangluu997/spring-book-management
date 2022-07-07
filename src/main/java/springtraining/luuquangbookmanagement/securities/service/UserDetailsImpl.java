@@ -1,6 +1,7 @@
 package springtraining.luuquangbookmanagement.securities.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.*;
 
 @Getter
 @Setter
+@Builder
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;

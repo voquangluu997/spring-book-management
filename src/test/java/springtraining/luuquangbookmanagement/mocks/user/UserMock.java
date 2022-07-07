@@ -1,6 +1,7 @@
 package springtraining.luuquangbookmanagement.mocks.user;
 
 import springtraining.luuquangbookmanagement.repositories.entities.User;
+import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
 
 import java.util.UUID;
 
@@ -12,8 +13,15 @@ public class UserMock {
                 .password("password")
                 .firstName("firstName")
                 .lastName("firstName")
+                .build();
+    }
 
-//                .user(
+    public static UserDetailsImpl createUserDetailsImpl() {
+        return UserDetailsImpl.builder()
+                .username("email")
+                .password("password")
+                .firstName("firstName")
+                .lastName("firstName")
                 .build();
     }
 
