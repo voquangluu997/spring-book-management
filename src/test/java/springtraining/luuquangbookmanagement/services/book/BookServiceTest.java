@@ -94,7 +94,7 @@ public class BookServiceTest {
         assertDoesNotThrow(() -> {
             bookService.updateBook(book.getId(), bookDTO);
         });
-        verify(bookRepository.findById(book.getId()));
+        verify(bookRepository).findById(book.getId());
     }
 
     @Test
@@ -128,7 +128,7 @@ public class BookServiceTest {
         assertDoesNotThrow(() -> {
             bookService.deleteById(book.getId());
         });
-        verify(bookRepository.findById(book.getId()));
+        verify(bookRepository).findById(book.getId());
     }
 
     @Test
@@ -141,7 +141,5 @@ public class BookServiceTest {
         assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
 
     }
-
-
 }
 
