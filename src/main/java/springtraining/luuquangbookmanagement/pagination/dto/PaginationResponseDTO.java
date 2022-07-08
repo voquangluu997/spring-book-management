@@ -1,9 +1,12 @@
 package springtraining.luuquangbookmanagement.pagination.dto;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @SuperBuilder
 public class PaginationResponseDTO {
     private int currentPage;

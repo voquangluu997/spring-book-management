@@ -54,7 +54,7 @@ public class BookServiceTest {
     private Page<Book> bookPage;
 
     @Test
-    public void getBookByIdSuccess() {
+    public void test_getBookById_Success() {
         Book book = BookMock.createBook();
         when(bookRepository.findById(book.getId())).thenReturn(book);
         Book foundBook = bookService.getById(book.getId());
@@ -63,7 +63,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void getBookByIdFailed_IdNotFound() {
+    public void test_getBookById_IdNotFound() {
         long incorrectId = 123;
         BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
             bookService.getById(incorrectId);
@@ -72,7 +72,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void addBookSuccess() {
+    public void test_addBook_Success() {
         AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
         User user = UserMock.createUser();
         UserDetailsImpl userDetails = UserMock.createUserDetailsImpl();
@@ -86,7 +86,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void updateBookSuccess() {
+    public void test_updateBook_Success() {
         Book book = BookMock.createBook();
         UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
         when(bookRepository.findById(book.getId())).thenReturn(book);
@@ -98,7 +98,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void updateBookFailed_IdNotFound() {
+    public void test_updateBook_IdNotFound() {
         long incorrectId = 123;
         UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
         BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
@@ -108,7 +108,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void getBooksSuccess() {
+    public void test_getBooks_Success() {
         GetBooksResponseDTO booksResponse = BookMock.createGetBooksResponseDTO();
         BookFilterDTO bookFilter = BookMock.createBookFilterDTO();
         when(bookRepository.search(anyString(), any(Pageable.class), anyString())).thenReturn(bookPage);
@@ -122,7 +122,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void deleteBookSuccess() {
+    public void test_deleteBook_Success() {
         Book book = BookMock.createBook();
         when(bookRepository.findById(book.getId())).thenReturn(book);
         assertDoesNotThrow(() -> {
@@ -132,14 +132,13 @@ public class BookServiceTest {
     }
 
     @Test
-    public void deleteBookFailed_IdNotFound() {
+    public void test_deleteBook_IdNotFound() {
         long incorrectId = 123;
         UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
         BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
             bookService.updateBook(incorrectId, bookDTO);
         });
         assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
-
     }
 }
 

@@ -1,9 +1,11 @@
 package springtraining.luuquangbookmanagement.controllers.book.dto;
-
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+//@NoArgsConstructor
 @SuperBuilder
 public class AddBookRequestDTO extends BookDTO{
 }

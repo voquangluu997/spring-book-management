@@ -7,7 +7,6 @@ import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequest
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
-import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.services.BookService;
 
@@ -20,7 +19,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/{id}")
-    public Book getById(@PathVariable long id) throws NotFoundException {
+    public Book getById(@PathVariable long id) {
         return bookService.getById(id);
     }
 

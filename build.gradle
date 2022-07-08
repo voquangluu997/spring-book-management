@@ -36,6 +36,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.google.code.gson:gson:2.9.0'
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
 }

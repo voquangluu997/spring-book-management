@@ -37,6 +37,14 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
                 HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<ErrorModel> handleBookNotFoundException(BookNotFoundException ex, ServletWebRequest request) {
+        return new ResponseEntity<>(
+                new ErrorModel(Collections.singletonList(ex.getMessage()),
+                        request.getRequest().getRequestURI()),
+                HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorModel> handleBadRequestException(BadRequestException ex, ServletWebRequest request) {
         return new ResponseEntity<>(
