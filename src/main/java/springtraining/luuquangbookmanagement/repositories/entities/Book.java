@@ -43,7 +43,7 @@ public class Book {
     @Column(columnDefinition = "boolean default true")
     @NotNull
     @Builder.Default
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
     @Column(name = "created_at")
     @CreatedDate

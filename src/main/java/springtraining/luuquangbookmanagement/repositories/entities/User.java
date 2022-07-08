@@ -41,7 +41,7 @@ public class User {
     @NotNull
     @Builder.Default
     @Column(columnDefinition = "boolean default true")
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
     @OneToMany(mappedBy = "user")
     private List<Book> books;

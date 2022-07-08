@@ -18,17 +18,16 @@ import javax.validation.Valid;
 public class BookController {
     private final BookService bookService;
 
-    @GetMapping("/{id}")
-    public Book getById(@PathVariable long id) {
-        return bookService.getById(id);
-    }
-
     @Secured("ADMIN")
     @PostMapping
     public void addBook(@Valid @RequestBody AddBookRequestDTO bookRequest) {
         bookService.addBook(bookRequest);
     }
 
+    @GetMapping("/{id}")
+    public Book getById(@PathVariable long id) {
+        return bookService.getById(id);
+    }
 
     @PostMapping("filter")
     public GetBooksResponseDTO getBooks(@RequestBody BookFilterDTO bookFilterDTO) {
@@ -43,7 +42,9 @@ public class BookController {
 
     @Secured("ADMIN")
     @PutMapping("/{id}")
-    public void update(@PathVariable long id, @RequestBody UpdateBookRequestDTO bookRequest) {
+    public void update(@PathVariable long id,
+    @RequestBody UpdateBookRequestDTO bookRequest
+        ) {
         bookService.updateBook(id, bookRequest);
     }
 

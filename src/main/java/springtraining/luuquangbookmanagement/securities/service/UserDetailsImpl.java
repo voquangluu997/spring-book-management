@@ -52,11 +52,10 @@ public class UserDetailsImpl implements UserDetails {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPassword(),
-                user.getEnabled(),
+                user.isEnabled(),
                 authorities
         );
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
