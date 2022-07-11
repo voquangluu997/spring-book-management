@@ -1,9 +1,12 @@
 package springtraining.luuquangbookmanagement.controllers.auth.dto;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
-@Data
+@Getter
+@Builder
 public class RegisterRequestDTO {
     @NotBlank
     private String email;

@@ -1,5 +1,6 @@
 package springtraining.luuquangbookmanagement.mocks.user;
 
+import springtraining.luuquangbookmanagement.controllers.user.dto.UserResponseDTO;
 import springtraining.luuquangbookmanagement.repositories.entities.User;
 import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
 
@@ -14,6 +15,17 @@ public class UserMock {
                 .firstName("firstName")
                 .lastName("firstName")
                 .build();
+    }
+
+    public static UserResponseDTO createUserRestponseDTO() {
+        return UserResponseDTO.builder()
+                .email("email")
+                .avatar("avt")
+                .firstName("fn")
+                .lastName("ln")
+                .token("token")
+                .role("USER")
+        .build();
     }
 
     public static UserDetailsImpl createUserDetailsImpl() {

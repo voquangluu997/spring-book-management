@@ -1,6 +1,5 @@
 package springtraining.luuquangbookmanagement.securities.service;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import springtraining.luuquangbookmanagement.controllers.auth.dto.LoginRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.auth.dto.RegisterRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.user.dto.UserResponseDTO;
+import springtraining.luuquangbookmanagement.converter.UserConverter;
 import springtraining.luuquangbookmanagement.exceptions.BadRequestException;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.repositories.RoleRepository;
@@ -31,7 +31,7 @@ public class AuthService {
     UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private ModelMapper modelMapper;
+    UserConverter converter;
 
     @Autowired
     private TokenManager tokenManager;
@@ -68,7 +68,7 @@ public class AuthService {
         if (user != null) {
             throw new BadRequestException("This email address is already being used");
         }
-        user = this.convertRegisterRequestDTOToUserEntity(registerRequest);
+        user = converter.convertRegisterRequestDTOToUserEntity(registerRequest);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         Role role = roleRepository.findByName("USER");
         user.setRole(role);
@@ -83,10 +83,6 @@ public class AuthService {
                 .token(jwtToken)
                 .role(role.getName())
                 .build();
-    }
-
-    private User convertRegisterRequestDTOToUserEntity(RegisterRequestDTO registerRequestDTO) {
-        return modelMapper.map(registerRequestDTO, User.class);
     }
 
 }

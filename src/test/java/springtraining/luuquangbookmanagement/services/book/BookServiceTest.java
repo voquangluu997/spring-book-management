@@ -6,10 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
-import springtraining.luuquangbookmanagement.Converter.Converter;
+import springtraining.luuquangbookmanagement.converter.BookConverter;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
@@ -28,8 +29,7 @@ import springtraining.luuquangbookmanagement.services.BookService;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
@@ -48,10 +48,7 @@ public class BookServiceTest {
     private BookService bookService;
 
     @Mock
-    private Converter converter;
-
-    @Mock
-    private Page<Book> bookPage;
+    private BookConverter converter;
 
     @Test
     public void test_getBookById_Success() {
@@ -109,16 +106,17 @@ public class BookServiceTest {
 
     @Test
     public void test_getBooks_Success() {
-        GetBooksResponseDTO booksResponse = BookMock.createGetBooksResponseDTO();
         BookFilterDTO bookFilter = BookMock.createBookFilterDTO();
+        Page<Book> bookPage = new PageImpl<>(BookMock.createBooks());
         when(bookRepository.search(anyString(), any(Pageable.class), anyString())).thenReturn(bookPage);
-        assertEquals(bookService.getBooks(bookFilter),
-                GetBooksResponseDTO.builder()
-                        .books(bookPage.getContent())
-                        .currentPage(bookPage.getNumber())
-                        .totalItems(bookPage.getTotalElements())
-                        .totalPages(bookPage.getTotalPages())
-                        .build());
+
+        final GetBooksResponseDTO getBooksResponseDTO = bookService.getBooks(bookFilter);
+        assertEquals(getBooksResponseDTO.getTotalPages(), bookPage.getTotalPages());
+        assertEquals(getBooksResponseDTO.getCurrentPage(), bookPage.getNumber());
+        assertEquals(getBooksResponseDTO.getTotalItems(), bookPage.getTotalElements());
+        assertEquals(getBooksResponseDTO.getBooks().size(), bookPage.getContent().size());
+        assertArrayEquals(getBooksResponseDTO.getBooks().toArray(new Book[0]), bookPage.getContent().toArray(new Book[0]));
+        verify(bookRepository).search(anyString(), any(Pageable.class), anyString());
     }
 
     @Test
@@ -140,5 +138,6 @@ public class BookServiceTest {
         });
         assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
     }
+
 }
 

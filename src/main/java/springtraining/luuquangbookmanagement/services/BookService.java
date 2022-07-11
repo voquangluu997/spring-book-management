@@ -5,11 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import springtraining.luuquangbookmanagement.Converter.Converter;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
+import springtraining.luuquangbookmanagement.converter.BookConverter;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.providers.UserProvider;
@@ -33,7 +33,7 @@ public class BookService {
     private UserProvider userProvider;
 
     @Autowired
-    private Converter converter;
+    private BookConverter converter;
 
     public GetBooksResponseDTO getBooks(BookFilterDTO bookFilter) {
         final int page = bookFilter.getPage();

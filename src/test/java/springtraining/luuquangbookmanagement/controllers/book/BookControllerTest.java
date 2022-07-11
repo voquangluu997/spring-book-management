@@ -17,6 +17,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
+import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
+import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.mocks.book.BookMock;
@@ -54,6 +56,23 @@ public class BookControllerTest {
 
     @Test
     @WithMockUser(roles = {"USER"})
+    public void test_getBookFilter_Success() throws Exception {
+        GetBooksResponseDTO getBooksResponseDTO = BookMock.createGetBooksResponseDTO();
+        BookFilterDTO bookFilterDTO = BookMock.createBookFilterDTO();
+        when(bookService.getBooks(any(BookFilterDTO.class))).thenReturn(getBooksResponseDTO);
+        Gson gson = new Gson();
+        String json = gson.toJson(bookFilterDTO);
+        mvc.perform(MockMvcRequestBuilders.post("/books/filter")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalPages", Matchers.equalTo(getBooksResponseDTO.getTotalPages())))
+                .andExpect(jsonPath("$.currentPage", Matchers.equalTo(getBooksResponseDTO.getCurrentPage())));
+        verify(bookService).getBooks(any(BookFilterDTO.class));
+    }
+
+    @Test
+    @WithMockUser(roles = {"USER"})
     public void test_getBookById_NotFound() throws Exception {
         final Book book = BookMock.createBook();
         when(bookService.getById(book.getId())).thenThrow(BookNotFoundException.class);
@@ -61,8 +80,6 @@ public class BookControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
         verify(bookService).getById(book.getId());
-
-
     }
 
     @Test
@@ -77,7 +94,6 @@ public class BookControllerTest {
                         .content(json))
                 .andExpect(status().isOk());
         verify(bookService).addBook(any(AddBookRequestDTO.class));
-
     }
 
     @Test
@@ -120,6 +136,4 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
         verify(bookService).deleteById(idMock);
     }
-
-
 }
