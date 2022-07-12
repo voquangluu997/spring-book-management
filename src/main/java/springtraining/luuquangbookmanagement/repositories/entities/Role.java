@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -22,5 +21,4 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     List<User> users;
-
 }
