@@ -3,6 +3,7 @@ package springtraining.luuquangbookmanagement.exceptions;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.Collections;
 import java.util.List;
 
-@Data
+@Getter
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 class ErrorModel {
     private List<String> message;
@@ -27,7 +28,6 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
     public ResponseEntity<ErrorModel> handleException(Exception ex, ServletWebRequest request) {
         return new ResponseEntity<>(new ErrorModel(Collections.singletonList(ex.getMessage()), request.getRequest().getRequestURI()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorModel> handleNotFoundException(NotFoundException ex, ServletWebRequest request) {

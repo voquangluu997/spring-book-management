@@ -1,8 +1,9 @@
 package springtraining.luuquangbookmanagement.exceptions;
 
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class BookNotFoundException extends RuntimeException {
     public BookNotFoundException(long id) {
         super("Book ID " + id + " is not found.");

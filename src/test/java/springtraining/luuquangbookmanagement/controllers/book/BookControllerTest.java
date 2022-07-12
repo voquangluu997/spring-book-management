@@ -86,14 +86,14 @@ public class BookControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     public void test_addBook_Success() throws Exception {
         AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
-        doNothing().when(bookService).addBook(any(AddBookRequestDTO.class));
+        doNothing().when(bookService).addBook(any());
         Gson gson = new Gson();
         String json = gson.toJson(bookDTO);
         mvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
-        verify(bookService).addBook(any(AddBookRequestDTO.class));
+        verify(bookService).addBook(any());
     }
 
     @Test

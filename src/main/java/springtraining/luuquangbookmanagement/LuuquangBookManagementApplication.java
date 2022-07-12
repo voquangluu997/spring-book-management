@@ -11,7 +11,6 @@ public class LuuquangBookManagementApplication {
     public static void main(String[] args) {
         SpringApplication.run(LuuquangBookManagementApplication.class, args);
     }
-
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

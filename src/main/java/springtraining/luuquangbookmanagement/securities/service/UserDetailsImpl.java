@@ -13,7 +13,6 @@ import springtraining.luuquangbookmanagement.repositories.entities.User;
 import java.util.*;
 
 @Getter
-@Setter
 @Builder
 public class UserDetailsImpl implements UserDetails {
 

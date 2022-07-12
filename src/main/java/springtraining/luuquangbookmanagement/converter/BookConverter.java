@@ -29,7 +29,4 @@ public class BookConverter {
         book.setEnabled(bookDTO.isEnabled());
         return book;
     }
-
-
-
 }

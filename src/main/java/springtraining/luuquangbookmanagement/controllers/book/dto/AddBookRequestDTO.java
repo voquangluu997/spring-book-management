@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @Builder
 public class AddBookRequestDTO {

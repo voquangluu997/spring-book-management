@@ -7,7 +7,6 @@ import springtraining.luuquangbookmanagement.repositories.entities.User;
 
 @Service
 public class UserConverter {
-
     public User convertRegisterRequestDTOToUserEntity(RegisterRequestDTO registerRequestDTO) {
         final User user = new User();
         user.setPassword(registerRequestDTO.getPassword());
@@ -15,13 +14,6 @@ public class UserConverter {
         user.setEmail(registerRequestDTO.getEmail());
         user.setFirstName(registerRequestDTO.getFirstName());
         user.setLastName(registerRequestDTO.getLastName());
-        return user;
-    }
-
-    public User convertLoginRequestDTOToUserEntity(LoginRequestDTO loginRequestDTO) {
-        final User user = new User();
-        user.setPassword(loginRequestDTO.getPassword());
-        user.setEmail(loginRequestDTO.getEmail());
         return user;
     }
 
