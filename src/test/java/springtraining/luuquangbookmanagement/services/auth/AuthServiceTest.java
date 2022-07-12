@@ -64,21 +64,23 @@ public class AuthServiceTest {
         LoginRequestDTO loginRequestDTO = AuthMock.createLoginRequestDTO();
         User user = UserMock.createUser();
         UserDetailsImpl userDetails = UserMock.createUserDetailsImpl();
-
-        String token = "token";
         when(userRepository.findByEmail(anyString())).thenReturn(user);
         Authentication authentication = mock(Authentication.class);
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(authentication);
         SecurityContext securityContext = mock(SecurityContext.class);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         when(userDetailsService.loadUserByUsername(anyString())).thenReturn(userDetails);
-        when(tokenManager.generateToken(any())).thenReturn(token);
+        when(tokenManager.generateToken(any())).thenReturn("token");
         assertEquals(authService.login(loginRequestDTO).getEmail(), userResponseDTO.getEmail());
         assertEquals(authService.login(loginRequestDTO).getRole(), userResponseDTO.getRole());
+        verify(userRepository, times(2)).findByEmail(anyString());
+        verify(authenticationManager, times(2)).authenticate(any(Authentication.class));
+        verify(userDetailsService, times(2)).loadUserByUsername(anyString());
+        verify(tokenManager, times(2)).generateToken(any());
     }
 
     @Test
-    public void test_login_UserNotFound(){
+    public void test_login_UserNotFound() {
 
         LoginRequestDTO loginRequestDTO = AuthMock.createLoginRequestDTO();
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
@@ -105,10 +107,11 @@ public class AuthServiceTest {
         verify(roleRepository).findByName(anyString());
         verify(userDetailsService).loadUserByUsername(anyString());
         verify(tokenManager).generateToken(any(UserDetailsImpl.class));
+        verify(converter).convertRegisterRequestDTOToUserEntity(any(RegisterRequestDTO.class));
     }
 
     @Test
-    public void test_Register_EmailAlreadyBeingUsed(){
+    public void test_Register_EmailAlreadyBeingUsed() {
         RegisterRequestDTO registerRequestDTO = AuthMock.createRegisterRequestDTO();
         User user = UserMock.createUser();
         when(userRepository.findByEmail(registerRequestDTO.getEmail())).thenReturn(user);
@@ -116,5 +119,6 @@ public class AuthServiceTest {
             authService.register(registerRequestDTO);
         });
         assertEquals(exception.getMessage(), "This email address is already being used");
+        verify(userRepository).findByEmail(registerRequestDTO.getEmail());
     }
 }

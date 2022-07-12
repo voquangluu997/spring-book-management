@@ -10,11 +10,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
-import springtraining.luuquangbookmanagement.converter.BookConverter;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
+import springtraining.luuquangbookmanagement.converter.BookConverter;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.mocks.book.BookMock;
 import springtraining.luuquangbookmanagement.mocks.user.UserMock;
@@ -29,7 +29,8 @@ import springtraining.luuquangbookmanagement.services.BookService;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
@@ -131,12 +132,11 @@ public class BookServiceTest {
 
     @Test
     public void test_deleteBook_IdNotFound() {
-        long incorrectId = 123;
-        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
+        Book book = BookMock.createBook();
         BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
-            bookService.updateBook(incorrectId, bookDTO);
+            bookService.deleteById(book.getId());
         });
-        assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
+        assertEquals(exception.getMessage(), "Book ID " + book.getId() + " is not found.");
     }
 
 }

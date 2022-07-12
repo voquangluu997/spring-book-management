@@ -10,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 public class UpdateBookRequestDTO{

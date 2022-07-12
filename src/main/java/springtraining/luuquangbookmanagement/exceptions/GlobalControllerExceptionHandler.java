@@ -23,34 +23,12 @@ class ErrorModel {
 
 @RestControllerAdvice
 public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorModel> handleException(Exception ex, ServletWebRequest request) {
-        return new ResponseEntity<>(new ErrorModel(Collections.singletonList(ex.getMessage()), request.getRequest().getRequestURI()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorModel> handleNotFoundException(NotFoundException ex, ServletWebRequest request) {
-        return new ResponseEntity<>(
-                new ErrorModel(Collections.singletonList(ex.getMessage()),
-                        request.getRequest().getRequestURI()),
-                HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<ErrorModel> handleBookNotFoundException(BookNotFoundException ex, ServletWebRequest request) {
         return new ResponseEntity<>(
                 new ErrorModel(Collections.singletonList(ex.getMessage()),
                         request.getRequest().getRequestURI()),
                 HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorModel> handleBadRequestException(BadRequestException ex, ServletWebRequest request) {
-        return new ResponseEntity<>(
-                new ErrorModel(Collections.singletonList(ex.getMessage()),
-                        request.getRequest().getRequestURI()),
-                HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -1,22 +1,27 @@
 package springtraining.luuquangbookmanagement.securities.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import springtraining.luuquangbookmanagement.mocks.user.UserMock;
 import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
 import springtraining.luuquangbookmanagement.securities.service.UserDetailsServiceImpl;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class jwtFilterTest {
@@ -31,35 +36,52 @@ public class jwtFilterTest {
     TokenManager tokenManager;
 
     @Test
-    public void test_doFilterInternal_Success() {
-        String email = "email";
-        String token = "token";
+    public void test_doFilterInternal_Success_WithHeaderNull() {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);
-        UserDetailsImpl userDetailsImpl = UserMock.createUserDetailsImpl();
-        when(tokenManager.getUsernameFromToken(anyString())).thenReturn(email);
-        when(userDetailsService.loadUserByUsername(anyString())).thenReturn(userDetailsImpl);
-        when(tokenManager.validateJwtToken(token, userDetailsImpl)).thenReturn(true);
         assertDoesNotThrow(() -> {
             jwtFilter.doFilterInternal(request, response, filterChain);
         });
     }
 
     @Test
-    public void test_doFilterInternal_Success_1() {
-        String email = "email";
-        String token = "token";
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
+    public void test_doFilterInternal_Success_WithBearerHeader() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        request.addHeader("Authorization", "Bearer xxx");
         FilterChain filterChain = mock(FilterChain.class);
         UserDetailsImpl userDetailsImpl = UserMock.createUserDetailsImpl();
-        when(tokenManager.getUsernameFromToken(anyString())).thenReturn(email);
+        when(tokenManager.getUsernameFromToken(anyString())).thenReturn("ff");
         when(userDetailsService.loadUserByUsername(anyString())).thenReturn(userDetailsImpl);
-        when(tokenManager.validateJwtToken(token, userDetailsImpl)).thenReturn(true);
+        when(tokenManager.validateJwtToken(anyString(), any(UserDetailsImpl.class))).thenReturn(true);
         assertDoesNotThrow(() -> {
             jwtFilter.doFilterInternal(request, response, filterChain);
         });
+        verify(tokenManager).getUsernameFromToken(anyString());
+        verify(userDetailsService).loadUserByUsername(anyString());
+        verify(tokenManager).validateJwtToken(anyString(), any(UserDetailsImpl.class));
     }
 
+    @Test
+    public void test_doFilterInternal_IllegalArgumentException() throws ServletException, IOException {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        request.addHeader("Authorization", "Bearer xxx");
+        FilterChain filterChain = mock(FilterChain.class);
+        when(tokenManager.getUsernameFromToken(anyString())).thenThrow(IllegalArgumentException.class);
+        assertDoesNotThrow(() -> jwtFilter.doFilterInternal(request, response, filterChain));
+        verify(tokenManager).getUsernameFromToken(anyString());
+    }
+
+    @Test
+    public void test_doFilterInternal_ExpiredJwtException() throws ServletException, IOException {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        request.addHeader("Authorization", "Bearer xxx");
+        FilterChain filterChain = mock(FilterChain.class);
+        when(tokenManager.getUsernameFromToken(anyString())).thenThrow(ExpiredJwtException.class);
+        assertDoesNotThrow(() -> jwtFilter.doFilterInternal(request, response, filterChain));
+        verify(tokenManager).getUsernameFromToken(anyString());
+    }
 }
