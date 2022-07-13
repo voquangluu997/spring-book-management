@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,7 @@ public class User {
 
     @Column(unique = true)
     @NotNull
+    @Email
     private String email;
 
     @Column
