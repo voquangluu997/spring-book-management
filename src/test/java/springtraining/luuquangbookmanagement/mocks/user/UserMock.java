@@ -4,7 +4,7 @@ import springtraining.luuquangbookmanagement.controllers.user.dto.UserResponseDT
 import springtraining.luuquangbookmanagement.mocks.role.RoleMock;
 import springtraining.luuquangbookmanagement.repositories.entities.Role;
 import springtraining.luuquangbookmanagement.repositories.entities.User;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
 public class UserMock {
 

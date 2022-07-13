@@ -9,8 +9,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import springtraining.luuquangbookmanagement.mocks.user.UserMock;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsServiceImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsServiceImpl;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

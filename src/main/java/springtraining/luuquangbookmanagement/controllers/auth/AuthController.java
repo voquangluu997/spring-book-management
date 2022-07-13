@@ -1,6 +1,5 @@
 package springtraining.luuquangbookmanagement.controllers.auth;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,10 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import springtraining.luuquangbookmanagement.controllers.auth.dto.LoginRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.auth.dto.RegisterRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.user.dto.UserResponseDTO;
-import springtraining.luuquangbookmanagement.securities.service.AuthService;
+import springtraining.luuquangbookmanagement.services.auth.AuthService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/auth")

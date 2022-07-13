@@ -8,7 +8,7 @@ import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
-import springtraining.luuquangbookmanagement.services.BookService;
+import springtraining.luuquangbookmanagement.services.book.BookService;
 
 import javax.validation.Valid;
 
@@ -20,8 +20,8 @@ public class BookController {
 
     @Secured("ADMIN")
     @PostMapping
-    public void addBook(@Valid @RequestBody AddBookRequestDTO bookRequest) {
-        bookService.addBook(bookRequest);
+    public void add(@Valid @RequestBody AddBookRequestDTO bookRequest) {
+        bookService.add(bookRequest);
     }
 
     @GetMapping("/{id}")

@@ -1,4 +1,4 @@
-package springtraining.luuquangbookmanagement.securities.service;
+package springtraining.luuquangbookmanagement.services.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import springtraining.luuquangbookmanagement.controllers.auth.dto.LoginRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.auth.dto.RegisterRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.user.dto.UserResponseDTO;
-import springtraining.luuquangbookmanagement.converter.UserConverter;
+import springtraining.luuquangbookmanagement.converters.UserConverter;
 import springtraining.luuquangbookmanagement.exceptions.BadRequestException;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.repositories.RoleRepository;
@@ -18,6 +18,8 @@ import springtraining.luuquangbookmanagement.repositories.UserRepository;
 import springtraining.luuquangbookmanagement.repositories.entities.Role;
 import springtraining.luuquangbookmanagement.repositories.entities.User;
 import springtraining.luuquangbookmanagement.securities.jwt.TokenManager;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsServiceImpl;
 
 @Service
 public class AuthService {

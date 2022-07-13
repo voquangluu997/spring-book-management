@@ -1,4 +1,4 @@
-package springtraining.luuquangbookmanagement.services;
+package springtraining.luuquangbookmanagement.services.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,7 @@ import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequest
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
-import springtraining.luuquangbookmanagement.converter.BookConverter;
+import springtraining.luuquangbookmanagement.converters.BookConverter;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.providers.UserProvider;
@@ -17,7 +17,7 @@ import springtraining.luuquangbookmanagement.repositories.BookRepository;
 import springtraining.luuquangbookmanagement.repositories.UserRepository;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.repositories.entities.User;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
 import java.util.Date;
 
@@ -60,7 +60,7 @@ public class BookService {
         throw new BookNotFoundException(id);
     }
 
-    public void addBook(AddBookRequestDTO bookRequest) {
+    public void add(AddBookRequestDTO bookRequest) {
         UserDetailsImpl userDetails = userProvider.getCurrentUser();
         User user = userRepository.findById(userDetails.getId());
         Book book = converter.convertAddBookDTOToBookEntity(bookRequest);

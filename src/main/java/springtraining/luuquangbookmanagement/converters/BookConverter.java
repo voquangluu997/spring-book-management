@@ -1,12 +1,9 @@
-package springtraining.luuquangbookmanagement.converter;
+package springtraining.luuquangbookmanagement.converters;
 
 import org.springframework.stereotype.Service;
-import springtraining.luuquangbookmanagement.controllers.auth.dto.LoginRequestDTO;
-import springtraining.luuquangbookmanagement.controllers.auth.dto.RegisterRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
-import springtraining.luuquangbookmanagement.repositories.entities.User;
 
 @Service
 public class BookConverter {

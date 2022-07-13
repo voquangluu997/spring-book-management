@@ -23,7 +23,7 @@ import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequ
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.mocks.book.BookMock;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
-import springtraining.luuquangbookmanagement.services.BookService;
+import springtraining.luuquangbookmanagement.services.book.BookService;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -86,14 +86,14 @@ public class BookControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     public void test_addBook_Success() throws Exception {
         AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
-        doNothing().when(bookService).addBook(any());
+        doNothing().when(bookService).add(any());
         Gson gson = new Gson();
         String json = gson.toJson(bookDTO);
         mvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
-        verify(bookService).addBook(any());
+        verify(bookService).add(any());
     }
 
     @Test

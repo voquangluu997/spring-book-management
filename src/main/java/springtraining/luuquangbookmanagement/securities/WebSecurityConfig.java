@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import springtraining.luuquangbookmanagement.securities.jwt.JwtAuthenticationEntryPoint;
 import springtraining.luuquangbookmanagement.securities.jwt.JwtFilter;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsServiceImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsServiceImpl;
 
 //@Configuration
 @EnableWebSecurity

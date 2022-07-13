@@ -1,4 +1,4 @@
-package springtraining.luuquangbookmanagement.securities.service;
+package springtraining.luuquangbookmanagement.securities.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

@@ -19,7 +19,7 @@ import springtraining.luuquangbookmanagement.controllers.auth.dto.RegisterReques
 import springtraining.luuquangbookmanagement.controllers.user.dto.UserResponseDTO;
 import springtraining.luuquangbookmanagement.mocks.auth.AuthMock;
 import springtraining.luuquangbookmanagement.mocks.user.UserMock;
-import springtraining.luuquangbookmanagement.securities.service.AuthService;
+import springtraining.luuquangbookmanagement.services.auth.AuthService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -50,7 +50,6 @@ public class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", Matchers.equalTo(userResponseDTO.getEmail())));
-
     }
 
     @Test

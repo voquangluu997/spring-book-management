@@ -1,4 +1,4 @@
-package springtraining.luuquangbookmanagement.securities.service;
+package springtraining.luuquangbookmanagement.securities.services;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

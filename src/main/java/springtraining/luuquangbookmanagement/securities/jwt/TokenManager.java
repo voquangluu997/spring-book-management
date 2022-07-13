@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
 import java.io.Serializable;
 import java.util.Date;

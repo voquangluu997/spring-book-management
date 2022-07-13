@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import springtraining.luuquangbookmanagement.mocks.user.UserMock;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

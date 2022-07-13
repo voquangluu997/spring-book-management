@@ -14,7 +14,7 @@ import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequest
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
-import springtraining.luuquangbookmanagement.converter.BookConverter;
+import springtraining.luuquangbookmanagement.converters.BookConverter;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.mocks.book.BookMock;
 import springtraining.luuquangbookmanagement.mocks.user.UserMock;
@@ -23,8 +23,7 @@ import springtraining.luuquangbookmanagement.repositories.BookRepository;
 import springtraining.luuquangbookmanagement.repositories.UserRepository;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.repositories.entities.User;
-import springtraining.luuquangbookmanagement.securities.service.UserDetailsImpl;
-import springtraining.luuquangbookmanagement.services.BookService;
+import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -78,7 +77,7 @@ public class BookServiceTest {
         when(userRepository.findById(user.getId())).thenReturn(user);
         when(userProvider.getCurrentUser()).thenReturn(userDetails);
         assertDoesNotThrow(() -> {
-            bookService.addBook(bookDTO);
+            bookService.add(bookDTO);
         });
         verify(userRepository).findById(user.getId());
     }

@@ -1,10 +1,8 @@
-package springtraining.luuquangbookmanagement.securities.service;
+package springtraining.luuquangbookmanagement.securities.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
