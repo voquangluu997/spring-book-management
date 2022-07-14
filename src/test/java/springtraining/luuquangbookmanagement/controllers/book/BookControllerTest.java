@@ -83,7 +83,7 @@ public class BookControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockUser(roles = "ADMIN")
     public void test_addBook_Success() throws Exception {
         AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
         doNothing().when(bookService).add(any());
