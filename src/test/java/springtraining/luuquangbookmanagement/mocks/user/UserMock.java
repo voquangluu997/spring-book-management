@@ -11,15 +11,15 @@ public class UserMock {
     public static User createUser() {
 
         Role role = RoleMock.createRole();
-        return User.builder().email("email").password("password").firstName("firstName").lastName("firstName").avatar("avatar").role(role).build();
+        return User.builder().email("email@gmail.com").password("password").firstName("firstName").lastName("firstName").avatar("avatar").role(role).build();
     }
 
     public static UserResponseDTO createUserRestponseDTO() {
-        return UserResponseDTO.builder().email("email").avatar("avatar").firstName("firstName").lastName("lastName").token("token").role("USER").build();
+        return UserResponseDTO.builder().email("email@gmail.com").avatar("avatar").firstName("firstName").lastName("lastName").token("token").role("USER").build();
     }
 
     public static UserDetailsImpl createUserDetailsImpl() {
-        return UserDetailsImpl.builder().username("email").password("password").firstName("firstName").lastName("firstName").build();
+        return UserDetailsImpl.builder().username("email@gmail.com").password("password").firstName("firstName").lastName("firstName").build();
     }
 
 }

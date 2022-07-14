@@ -6,14 +6,14 @@ import springtraining.luuquangbookmanagement.controllers.auth.dto.RegisterReques
 public class AuthMock {
     public static LoginRequestDTO createLoginRequestDTO() {
         return LoginRequestDTO.builder()
-                .email("email")
+                .email("email@gmail.com")
                 .password("password")
                 .build();
     }
 
     public static RegisterRequestDTO createRegisterRequestDTO() {
         return RegisterRequestDTO.builder()
-                .email("email")
+                .email("email@gmail.com")
                 .password("password")
                 .firstName("fn")
                 .lastName("ln")

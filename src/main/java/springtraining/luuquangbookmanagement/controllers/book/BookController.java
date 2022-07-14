@@ -2,6 +2,7 @@ package springtraining.luuquangbookmanagement.controllers.book;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 public class BookController {
     private final BookService bookService;
 
-    @Secured("ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void add(@Valid @RequestBody AddBookRequestDTO bookRequest) {
         bookService.add(bookRequest);
@@ -34,17 +35,17 @@ public class BookController {
         return bookService.getBooks(bookFilterDTO);
     }
 
-    @Secured("ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         bookService.deleteById(id);
     }
 
-    @Secured("ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public void update(@PathVariable long id,
-    @RequestBody UpdateBookRequestDTO bookRequest
-        ) {
+                       @RequestBody UpdateBookRequestDTO bookRequest
+    ) {
         bookService.updateBook(id, bookRequest);
     }
 
