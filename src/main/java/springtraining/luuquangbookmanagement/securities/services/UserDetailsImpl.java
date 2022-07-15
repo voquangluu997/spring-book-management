@@ -16,7 +16,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private long id;
+    private int id;
 
     private String username;
     private String firstName;
@@ -27,7 +27,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(long id, String username, String firstName, String lastName, String password, boolean isEnabled,
+    public UserDetailsImpl(int id, String username, String firstName, String lastName, String password, boolean isEnabled,
                            Collection<? extends GrantedAuthority> authorities
     ) {
         this.id = id;

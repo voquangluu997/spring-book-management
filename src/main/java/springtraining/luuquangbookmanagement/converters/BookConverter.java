@@ -17,8 +17,7 @@ public class BookConverter {
         return book;
     }
 
-    public Book convertUpdateBookDTOToBookEntity(UpdateBookRequestDTO bookDTO) {
-        final Book book = new Book();
+    public Book convertUpdateBookDTOToBookEntity(Book book, UpdateBookRequestDTO bookDTO) {
         book.setAuthor(bookDTO.getAuthor());
         book.setDescription(bookDTO.getDescription());
         book.setImage(bookDTO.getImage());

@@ -19,14 +19,14 @@ import javax.validation.Valid;
 public class BookController {
     private final BookService bookService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public void add(@Valid @RequestBody AddBookRequestDTO bookRequest) {
         bookService.add(bookRequest);
     }
 
     @GetMapping("/{id}")
-    public Book getById(@PathVariable long id) {
+    public Book getById(@PathVariable int id) {
         return bookService.getById(id);
     }
 
@@ -35,15 +35,15 @@ public class BookController {
         return bookService.getBooks(bookFilterDTO);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@PathVariable int id) {
         bookService.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public void update(@PathVariable long id,
+    public void update(@PathVariable int id,
                        @RequestBody UpdateBookRequestDTO bookRequest
     ) {
         bookService.updateBook(id, bookRequest);

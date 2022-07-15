@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "org.flywaydb.flyway" version "9.0.0"
 }
 
 group = 'spring-training'
@@ -16,6 +17,13 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/book-management'
+    user = 'postgres'
+    password = 'postgres'
+    locations = ['classpath:db/migration/COMMON']
 }
 
 dependencies {

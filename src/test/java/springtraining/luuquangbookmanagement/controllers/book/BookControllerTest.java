@@ -44,7 +44,7 @@ public class BookControllerTest {
     private BookService bookService;
 
     @Test
-    @WithMockUser(roles = {"USER"})
+    @WithMockUser()
     public void test_getBookById_Found() throws Exception {
         final Book book = BookMock.createBook();
         when(bookService.getById(book.getId())).thenReturn(book);
@@ -55,7 +55,7 @@ public class BookControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"USER"})
+    @WithMockUser()
     public void test_getBookFilter_Success() throws Exception {
         GetBooksResponseDTO getBooksResponseDTO = BookMock.createGetBooksResponseDTO();
         BookFilterDTO bookFilterDTO = BookMock.createBookFilterDTO();
@@ -72,7 +72,7 @@ public class BookControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"USER"})
+    @WithMockUser()
     public void test_getBookById_NotFound() throws Exception {
         final Book book = BookMock.createBook();
         when(bookService.getById(book.getId())).thenThrow(BookNotFoundException.class);
@@ -103,12 +103,12 @@ public class BookControllerTest {
         Book book = BookMock.createBook();
         Gson gson = new Gson();
         String json = gson.toJson(bookDTO);
-        doNothing().when(bookService).updateBook(anyLong(), any(UpdateBookRequestDTO.class));
+        doNothing().when(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
         mvc.perform(put("/books/" + book.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
-        verify(bookService).updateBook(anyLong(), any(UpdateBookRequestDTO.class));
+        verify(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
     }
 
     @Test
@@ -118,18 +118,18 @@ public class BookControllerTest {
         Book book = BookMock.createBook();
         Gson gson = new Gson();
         String json = gson.toJson(bookDTO);
-        doThrow(BookNotFoundException.class).when(bookService).updateBook(anyLong(), any(UpdateBookRequestDTO.class));
+        doThrow(BookNotFoundException.class).when(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
         mvc.perform(put("/books/" + book.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNotFound());
-        verify(bookService).updateBook(anyLong(), any(UpdateBookRequestDTO.class));
+        verify(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
     public void test_deleteBook_Success() throws Exception {
-        long idMock = 1;
+        int idMock = 1;
         doNothing().when(bookService).deleteById(idMock);
         mvc.perform(delete("/books/" + idMock)
                         .contentType(MediaType.APPLICATION_JSON))

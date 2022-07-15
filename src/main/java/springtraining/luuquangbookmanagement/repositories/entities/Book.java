@@ -19,25 +19,20 @@ import java.util.Date;
 @EnableJpaAuditing
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "book")
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
-    long id;
+    int id;
 
-    @Column
     @NotNull
     private String title;
 
-    @Column
     @NotNull
     private String author;
 
-    @Column
     private String description;
 
-    @Column
     private String image;
 
     @Column(columnDefinition = "boolean default true")

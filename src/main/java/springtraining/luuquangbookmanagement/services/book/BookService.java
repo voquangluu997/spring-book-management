@@ -51,7 +51,7 @@ public class BookService {
                 .build();
     }
 
-    public Book getById(long id) throws
+    public Book getById(int id) throws
             NotFoundException {
         Book book = bookRepository.findById(id);
         if (book != null) {
@@ -69,7 +69,7 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public void deleteById(long id) {
+    public void deleteById(int id) {
         Book book = bookRepository.findById(id);
         if (book == null) {
             throw new BookNotFoundException(id);
@@ -77,12 +77,12 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public void updateBook(long id, UpdateBookRequestDTO bookRequest) {
+    public void updateBook(int id, UpdateBookRequestDTO bookRequest) {
         Book foundBook = bookRepository.findById(id);
         if (foundBook == null) {
             throw new BookNotFoundException(id);
         }
-        Book book = converter.convertUpdateBookDTOToBookEntity(bookRequest);
+        Book book = converter.convertUpdateBookDTOToBookEntity( foundBook, bookRequest);
         book.setUpdatedAt(new Date());
         bookRepository.save(book);
     }

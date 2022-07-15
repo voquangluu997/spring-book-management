@@ -16,28 +16,24 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "\"user\"")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    int id;
 
     @Column(unique = true)
     @NotNull
     @Email
     private String email;
 
-    @Column
     @NotNull
     private String password;
 
-    @Column
     private String firstName;
 
-    @Column
     private String lastName;
 
-    @Column
     private String avatar;
 
     @NotNull

@@ -61,7 +61,7 @@ public class BookServiceTest {
 
     @Test
     public void test_getBookById_IdNotFound() {
-        long incorrectId = 123;
+        int incorrectId = 123;
         BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
             bookService.getById(incorrectId);
         });
@@ -96,7 +96,7 @@ public class BookServiceTest {
 
     @Test
     public void test_updateBook_IdNotFound() {
-        long incorrectId = 123;
+        int incorrectId = 123;
         UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
         BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
             bookService.updateBook(incorrectId, bookDTO);
