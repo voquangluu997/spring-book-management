@@ -1,7 +1,6 @@
 package springtraining.luuquangbookmanagement.controllers.auth.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;

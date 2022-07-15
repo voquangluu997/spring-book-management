@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 public class TokenManager implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
     public static final long TOKEN_VALIDITY = 10 * 60 * 60;
     @Value("${jwtSecret}")
@@ -32,7 +34,7 @@ public class TokenManager implements Serializable {
     public Boolean validateJwtToken(String token, UserDetailsImpl userDetails) {
         String username = getUsernameFromToken(token);
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-        Boolean isTokenExpired = claims.getExpiration().before(new Date());
+        boolean isTokenExpired = claims.getExpiration().before(new Date());
         return (username.equals(userDetails.getUsername()) && !isTokenExpired);
     }
 

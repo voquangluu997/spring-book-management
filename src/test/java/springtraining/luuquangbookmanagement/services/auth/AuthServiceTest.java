@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,8 +28,6 @@ import springtraining.luuquangbookmanagement.securities.services.UserDetailsServ
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -66,7 +63,6 @@ public class AuthServiceTest {
         when(userRepository.findByEmail(anyString())).thenReturn(user);
         Authentication authentication = mock(Authentication.class);
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(authentication);
-        SecurityContext securityContext = mock(SecurityContext.class);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         when(userDetailsService.loadUserByUsername(anyString())).thenReturn(userDetails);
         when(tokenManager.generateToken(any())).thenReturn("token");
@@ -82,9 +78,7 @@ public class AuthServiceTest {
     public void test_login_UserNotFound() {
 
         LoginRequestDTO loginRequestDTO = AuthMock.createLoginRequestDTO();
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
-            authService.login(loginRequestDTO);
-        });
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> authService.login(loginRequestDTO));
         assertEquals(exception.getMessage(), "User with email " + loginRequestDTO.getEmail() + " not found ");
     }
 
@@ -94,7 +88,6 @@ public class AuthServiceTest {
         RegisterRequestDTO registerRequestDTO = AuthMock.createRegisterRequestDTO();
         User user = UserMock.createUser();
         UserDetailsImpl userDetails = UserMock.createUserDetailsImpl();
-        String token = "token";
         when(userRepository.findByEmail(anyString())).thenReturn(null);
         when(converter.convertRegisterRequestDTOToUserEntity(any(RegisterRequestDTO.class))).thenReturn(user);
         when(roleRepository.findByName(anyString())).thenReturn(RoleMock.createRole());
@@ -114,9 +107,7 @@ public class AuthServiceTest {
         RegisterRequestDTO registerRequestDTO = AuthMock.createRegisterRequestDTO();
         User user = UserMock.createUser();
         when(userRepository.findByEmail(registerRequestDTO.getEmail())).thenReturn(user);
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            authService.register(registerRequestDTO);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> authService.register(registerRequestDTO));
         assertEquals(exception.getMessage(), "This email address is already being used");
         verify(userRepository).findByEmail(registerRequestDTO.getEmail());
     }

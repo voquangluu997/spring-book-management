@@ -1,7 +1,6 @@
 package springtraining.luuquangbookmanagement.controllers.book;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;

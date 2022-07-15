@@ -19,12 +19,12 @@ public class BookConverterTest {
     public void test_convertUpdateBookRequestToBookEntity() {
         final UpdateBookRequestDTO dto = BookMock.createUpdateBookRequestDTO();
         Book book = BookMock.createBook();
-        final Book updatedBook = converter.convertUpdateBookDTOToBookEntity(book,dto);
+        converter.convertUpdateBookDTOToBookEntity(book, dto);
     }
 
     @Test
     public void test_convertAddBookRequestToBookEntity() {
         final AddBookRequestDTO dto = BookMock.createAddBookRequestDTO();
-        final Book book = converter.convertAddBookDTOToBookEntity(dto);
+        converter.convertAddBookDTOToBookEntity(dto);
     }
 }

@@ -1,6 +1,5 @@
 package springtraining.luuquangbookmanagement.controllers.book;
 
-
 import com.google.gson.Gson;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

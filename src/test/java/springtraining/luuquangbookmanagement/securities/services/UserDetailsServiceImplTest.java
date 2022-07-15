@@ -41,9 +41,7 @@ public class UserDetailsServiceImplTest {
     @Test
     public void test_loadUserByUsername_UserNotFound() {
         String email = "email";
-                NotFoundException exception = assertThrows(NotFoundException.class, () -> {
-            userDetailsService.loadUserByUsername(email);
-        });
+                NotFoundException exception = assertThrows(NotFoundException.class, () -> userDetailsService.loadUserByUsername(email));
         assertEquals(exception.getMessage(), "User Not Found with email: " + email);
     }
 }

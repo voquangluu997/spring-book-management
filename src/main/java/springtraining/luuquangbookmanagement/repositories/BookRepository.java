@@ -17,7 +17,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             nativeQuery = true)
     Book findById(int id);
 
-    Book deleteById(int id);
+    void deleteById(int id);
 
 
 }

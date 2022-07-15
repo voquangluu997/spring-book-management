@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 
-public class tokenManagerTest {
+public class TokenManagerTest {
 
     @InjectMocks
     private TokenManager tokenManager;
@@ -22,6 +22,7 @@ public class tokenManagerTest {
         ReflectionTestUtils.setField(tokenManager, "jwtSecret", "uQuangmskdmksmkdaosidjoisamdkamskodm12iu1e8u298ismkdmkmdmedlkamldkmalkwmdlawmlkdmalkwdedjnejn");
         UserDetailsImpl userDetails = UserMock.createUserDetailsImpl();
         String token = tokenManager.generateToken(userDetails);
+        assertEquals(tokenManager.generateToken(userDetails), token);
     }
 
     @Test

@@ -1,7 +1,6 @@
 package springtraining.luuquangbookmanagement.controllers.user.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

@@ -62,9 +62,7 @@ public class BookServiceTest {
     @Test
     public void test_getBookById_IdNotFound() {
         int incorrectId = 123;
-        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
-            bookService.getById(incorrectId);
-        });
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.getById(incorrectId));
         assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
     }
 
@@ -76,9 +74,7 @@ public class BookServiceTest {
         when(converter.convertAddBookDTOToBookEntity(bookDTO)).thenReturn(BookMock.createBook());
         when(userRepository.findById(user.getId())).thenReturn(user);
         when(userProvider.getCurrentUser()).thenReturn(userDetails);
-        assertDoesNotThrow(() -> {
-            bookService.add(bookDTO);
-        });
+        assertDoesNotThrow(() -> bookService.add(bookDTO));
         verify(userRepository).findById(user.getId());
     }
 
@@ -87,10 +83,8 @@ public class BookServiceTest {
         Book book = BookMock.createBook();
         UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
         when(bookRepository.findById(book.getId())).thenReturn(book);
-        when(converter.convertUpdateBookDTOToBookEntity(bookDTO)).thenReturn(book);
-        assertDoesNotThrow(() -> {
-            bookService.updateBook(book.getId(), bookDTO);
-        });
+        when(converter.convertUpdateBookDTOToBookEntity(book, bookDTO)).thenReturn(book);
+        assertDoesNotThrow(() -> bookService.updateBook(book.getId(), bookDTO));
         verify(bookRepository).findById(book.getId());
     }
 
@@ -98,9 +92,7 @@ public class BookServiceTest {
     public void test_updateBook_IdNotFound() {
         int incorrectId = 123;
         UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
-        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
-            bookService.updateBook(incorrectId, bookDTO);
-        });
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.updateBook(incorrectId, bookDTO));
         assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
     }
 
@@ -123,18 +115,14 @@ public class BookServiceTest {
     public void test_deleteBook_Success() {
         Book book = BookMock.createBook();
         when(bookRepository.findById(book.getId())).thenReturn(book);
-        assertDoesNotThrow(() -> {
-            bookService.deleteById(book.getId());
-        });
+        assertDoesNotThrow(() -> bookService.deleteById(book.getId()));
         verify(bookRepository).findById(book.getId());
     }
 
     @Test
     public void test_deleteBook_IdNotFound() {
         Book book = BookMock.createBook();
-        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
-            bookService.deleteById(book.getId());
-        });
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.deleteById(book.getId()));
         assertEquals(exception.getMessage(), "Book ID " + book.getId() + " is not found.");
     }
 

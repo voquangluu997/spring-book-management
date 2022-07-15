@@ -74,7 +74,7 @@ public class AuthService {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         Role role = roleRepository.findByName("ROLE_USER");
         user.setRole(role);
-        final User savedUser = userRepository.save(user);
+        userRepository.save(user);
         UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(registerRequest.getEmail());
         String jwtToken = tokenManager.generateToken(userDetails);
         return UserResponseDTO.builder().firstName(user.getFirstName())

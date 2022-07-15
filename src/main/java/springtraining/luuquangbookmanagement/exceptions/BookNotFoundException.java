@@ -1,6 +1,5 @@
 package springtraining.luuquangbookmanagement.exceptions;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter
