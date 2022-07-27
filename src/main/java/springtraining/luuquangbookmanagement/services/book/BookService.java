@@ -72,7 +72,6 @@ public class BookService {
     }
 
     public void add(AddBookRequestDTO bookRequest, MultipartFile file) {
-
         UserDetailsImpl userDetails = userProvider.getCurrentUser();
         User user = userRepository.findById(userDetails.getId());
         Book book = converter.convertAddBookDTOToBookEntity(bookRequest);
@@ -97,12 +96,20 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public void updateBook(int id, UpdateBookRequestDTO bookRequest) {
+    public void updateBook(int id, UpdateBookRequestDTO bookRequest, MultipartFile file) {
         Book foundBook = bookRepository.findById(id);
         if (foundBook == null) {
             throw new BookNotFoundException(id);
         }
         Book book = converter.convertUpdateBookDTOToBookEntity(foundBook, bookRequest);
+        if (!file.isEmpty()) {
+            try {
+                Map uploadResult = cloudinaryConfig.getCloudinary().uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                book.setImage(uploadResult.get("url").toString());
+            } catch (IOException e) {
+                throw new BadRequestException(e.getMessage());
+            }
+        }
         book.setUpdatedAt(new Date());
         bookRepository.save(book);
     }

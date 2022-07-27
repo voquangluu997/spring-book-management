@@ -10,20 +10,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
-import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
-import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
 import springtraining.luuquangbookmanagement.converters.BookConverter;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.mocks.book.BookMock;
-import springtraining.luuquangbookmanagement.mocks.user.UserMock;
 import springtraining.luuquangbookmanagement.providers.UserProvider;
 import springtraining.luuquangbookmanagement.repositories.BookRepository;
 import springtraining.luuquangbookmanagement.repositories.UserRepository;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
-import springtraining.luuquangbookmanagement.repositories.entities.User;
-import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -78,23 +73,23 @@ public class BookServiceTest {
 //        verify(userRepository).findById(user.getId());
 //    }
 
-    @Test
-    public void test_updateBook_Success() {
-        Book book = BookMock.createBook();
-        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
-        when(bookRepository.findById(book.getId())).thenReturn(book);
-        when(converter.convertUpdateBookDTOToBookEntity(book, bookDTO)).thenReturn(book);
-        assertDoesNotThrow(() -> bookService.updateBook(book.getId(), bookDTO));
-        verify(bookRepository).findById(book.getId());
-    }
-
-    @Test
-    public void test_updateBook_IdNotFound() {
-        int incorrectId = 123;
-        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
-        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.updateBook(incorrectId, bookDTO));
-        assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
-    }
+//    @Test
+//    public void test_updateBook_Success() {
+//        Book book = BookMock.createBook();
+//        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
+//        when(bookRepository.findById(book.getId())).thenReturn(book);
+//        when(converter.convertUpdateBookDTOToBookEntity(book, bookDTO)).thenReturn(book);
+//        assertDoesNotThrow(() -> bookService.updateBook(book.getId(), bookDTO));
+//        verify(bookRepository).findById(book.getId());
+//    }
+//
+//    @Test
+//    public void test_updateBook_IdNotFound() {
+//        int incorrectId = 123;
+//        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
+//        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.updateBook(incorrectId, bookDTO));
+//        assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
+//    }
 
     @Test
     public void test_getBooks_Success() {

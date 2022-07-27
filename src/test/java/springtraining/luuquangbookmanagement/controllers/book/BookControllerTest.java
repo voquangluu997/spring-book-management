@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
-import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.mocks.book.BookMock;
 import springtraining.luuquangbookmanagement.repositories.entities.Book;
@@ -25,7 +24,6 @@ import springtraining.luuquangbookmanagement.services.book.BookService;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -95,35 +93,35 @@ public class BookControllerTest {
 //        verify(bookService).add(any());
 //    }
 
-    @Test
-    @WithMockUser(roles = {"ADMIN"})
-    public void test_updateBook_Success() throws Exception {
-        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
-        Book book = BookMock.createBook();
-        Gson gson = new Gson();
-        String json = gson.toJson(bookDTO);
-        doNothing().when(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
-        mvc.perform(put("/books/" + book.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk());
-        verify(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
-    }
-
-    @Test
-    @WithMockUser(roles = {"ADMIN"})
-    public void test_updateBook_idNotFound() throws Exception {
-        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
-        Book book = BookMock.createBook();
-        Gson gson = new Gson();
-        String json = gson.toJson(bookDTO);
-        doThrow(BookNotFoundException.class).when(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
-        mvc.perform(put("/books/" + book.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isNotFound());
-        verify(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
-    }
+//    @Test
+//    @WithMockUser(roles = {"ADMIN"})
+//    public void test_updateBook_Success() throws Exception {
+//        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
+//        Book book = BookMock.createBook();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(bookDTO);
+//        doNothing().when(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
+//        mvc.perform(put("/books/" + book.getId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(json))
+//                .andExpect(status().isOk());
+//        verify(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
+//    }
+//
+//    @Test
+//    @WithMockUser(roles = {"ADMIN"})
+//    public void test_updateBook_idNotFound() throws Exception {
+//        UpdateBookRequestDTO bookDTO = BookMock.createUpdateBookRequestDTO();
+//        Book book = BookMock.createBook();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(bookDTO);
+//        doThrow(BookNotFoundException.class).when(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
+//        mvc.perform(put("/books/" + book.getId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(json))
+//                .andExpect(status().isNotFound());
+//        verify(bookService).updateBook(anyInt(), any(UpdateBookRequestDTO.class));
+//    }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})

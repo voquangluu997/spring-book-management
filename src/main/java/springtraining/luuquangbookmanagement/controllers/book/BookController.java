@@ -43,10 +43,8 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public void update(@PathVariable int id,
-                       @RequestBody UpdateBookRequestDTO bookRequest
+    public void update(@PathVariable int id, UpdateBookRequestDTO bookRequest, @RequestParam("file") MultipartFile file
     ) {
-        bookService.updateBook(id, bookRequest);
+        bookService.updateBook(id, bookRequest, file);
     }
-
 }
