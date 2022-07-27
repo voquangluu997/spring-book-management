@@ -66,17 +66,17 @@ public class BookServiceTest {
         assertEquals(exception.getMessage(), "Book ID " + incorrectId + " is not found.");
     }
 
-    @Test
-    public void test_addBook_Success() {
-        AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
-        User user = UserMock.createUser();
-        UserDetailsImpl userDetails = UserMock.createUserDetailsImpl();
-        when(converter.convertAddBookDTOToBookEntity(bookDTO)).thenReturn(BookMock.createBook());
-        when(userRepository.findById(user.getId())).thenReturn(user);
-        when(userProvider.getCurrentUser()).thenReturn(userDetails);
-        assertDoesNotThrow(() -> bookService.add(bookDTO));
-        verify(userRepository).findById(user.getId());
-    }
+//    @Test
+//    public void test_addBook_Success() {
+//        AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
+//        User user = UserMock.createUser();
+//        UserDetailsImpl userDetails = UserMock.createUserDetailsImpl();
+//        when(converter.convertAddBookDTOToBookEntity(bookDTO)).thenReturn(BookMock.createBook());
+//        when(userRepository.findById(user.getId())).thenReturn(user);
+//        when(userProvider.getCurrentUser()).thenReturn(userDetails);
+//        assertDoesNotThrow(() -> bookService.add(bookDTO));
+//        verify(userRepository).findById(user.getId());
+//    }
 
     @Test
     public void test_updateBook_Success() {

@@ -12,7 +12,6 @@ public class BookConverter {
         final Book book = new Book();
         book.setAuthor(bookDTO.getAuthor());
         book.setDescription(bookDTO.getDescription());
-        book.setImage(bookDTO.getImage());
         book.setTitle(bookDTO.getTitle());
         return book;
     }
@@ -20,7 +19,6 @@ public class BookConverter {
     public Book convertUpdateBookDTOToBookEntity(Book book, UpdateBookRequestDTO bookDTO) {
         book.setAuthor(bookDTO.getAuthor());
         book.setDescription(bookDTO.getDescription());
-        book.setImage(bookDTO.getImage());
         book.setTitle(bookDTO.getTitle());
         book.setEnabled(bookDTO.isEnabled());
         return book;

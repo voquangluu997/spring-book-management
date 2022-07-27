@@ -3,6 +3,7 @@ package springtraining.luuquangbookmanagement.controllers.book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
@@ -20,8 +21,8 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public void add(@Valid @RequestBody AddBookRequestDTO bookRequest) {
-        bookService.add(bookRequest);
+    public void add(@Valid AddBookRequestDTO bookRequest, @RequestParam("file") MultipartFile file) {
+        bookService.add(bookRequest, file);
     }
 
     @GetMapping("/{id}")

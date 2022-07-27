@@ -42,7 +42,7 @@ public class BookMock {
                 .title("title")
                 .author("author")
                 .description("desc")
-                .image("image")
+//                .image("image")
                 .build();
     }
 
@@ -51,7 +51,7 @@ public class BookMock {
                 .title("title")
                 .author("author")
                 .description("desc")
-                .image("image")
+//                .image("image")
                 .enabled(true)
                 .build();
     }

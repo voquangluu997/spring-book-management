@@ -18,5 +18,4 @@ public class AddBookRequestDTO {
 
     private String description;
 
-    private String image;
 }

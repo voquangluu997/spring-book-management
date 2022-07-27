@@ -1,15 +1,19 @@
 package springtraining.luuquangbookmanagement.services.book;
 
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import springtraining.luuquangbookmanagement.configs.CloudinaryConfig;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
 import springtraining.luuquangbookmanagement.converters.BookConverter;
+import springtraining.luuquangbookmanagement.exceptions.BadRequestException;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
 import springtraining.luuquangbookmanagement.providers.UserProvider;
@@ -19,7 +23,9 @@ import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.repositories.entities.User;
 import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 @Service
 public class BookService {
@@ -34,6 +40,11 @@ public class BookService {
 
     @Autowired
     private BookConverter converter;
+
+    @Autowired
+    private CloudinaryConfig cloudinaryConfig;
+
+//    private final Cloudinary cloudinary = Singleton.getCloudinary();
 
     public GetBooksResponseDTO getBooks(BookFilterDTO bookFilter) {
         final int page = bookFilter.getPage();
@@ -60,10 +71,19 @@ public class BookService {
         throw new BookNotFoundException(id);
     }
 
-    public void add(AddBookRequestDTO bookRequest) {
+    public void add(AddBookRequestDTO bookRequest, MultipartFile file) {
+
         UserDetailsImpl userDetails = userProvider.getCurrentUser();
         User user = userRepository.findById(userDetails.getId());
         Book book = converter.convertAddBookDTOToBookEntity(bookRequest);
+        if (!file.isEmpty()) {
+            try {
+                Map uploadResult = cloudinaryConfig.getCloudinary().uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                book.setImage(uploadResult.get("url").toString());
+            } catch (IOException e) {
+                throw new BadRequestException(e.getMessage());
+            }
+        }
         book.setUser(user);
         book.setCreatedAt(new Date());
         bookRepository.save(book);
@@ -82,7 +102,7 @@ public class BookService {
         if (foundBook == null) {
             throw new BookNotFoundException(id);
         }
-        Book book = converter.convertUpdateBookDTOToBookEntity( foundBook, bookRequest);
+        Book book = converter.convertUpdateBookDTOToBookEntity(foundBook, bookRequest);
         book.setUpdatedAt(new Date());
         bookRepository.save(book);
     }

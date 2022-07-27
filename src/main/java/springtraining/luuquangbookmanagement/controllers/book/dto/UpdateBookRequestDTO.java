@@ -20,7 +20,5 @@ public class UpdateBookRequestDTO {
 
     private String description;
 
-    private String image;
-
     private boolean enabled;
 }

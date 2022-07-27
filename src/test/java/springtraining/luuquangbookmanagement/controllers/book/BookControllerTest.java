@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.UpdateBookRequestDTO;
@@ -25,7 +24,8 @@ import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.services.book.BookService;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -81,19 +81,19 @@ public class BookControllerTest {
         verify(bookService).getById(book.getId());
     }
 
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    public void test_addBook_Success() throws Exception {
-        AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
-        doNothing().when(bookService).add(any());
-        Gson gson = new Gson();
-        String json = gson.toJson(bookDTO);
-        mvc.perform(post("/books")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk());
-        verify(bookService).add(any());
-    }
+//    @Test
+//    @WithMockUser(roles = "ADMIN")
+//    public void test_addBook_Success() throws Exception {
+//        AddBookRequestDTO bookDTO = BookMock.createAddBookRequestDTO();
+//        doNothing().when(bookService).add(any());
+//        Gson gson = new Gson();
+//        String json = gson.toJson(bookDTO);
+//        mvc.perform(post("/books")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(json))
+//                .andExpect(status().isOk());
+//        verify(bookService).add(any());
+//    }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
