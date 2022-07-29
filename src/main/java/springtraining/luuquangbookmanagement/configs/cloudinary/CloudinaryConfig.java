@@ -1,4 +1,4 @@
-package springtraining.luuquangbookmanagement.configs;
+package springtraining.luuquangbookmanagement.configs.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

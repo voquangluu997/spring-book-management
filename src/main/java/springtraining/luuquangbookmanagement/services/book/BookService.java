@@ -7,7 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import springtraining.luuquangbookmanagement.configs.CloudinaryConfig;
+import springtraining.luuquangbookmanagement.configs.cloudinary.CloudinaryConfig;
+import springtraining.luuquangbookmanagement.configs.sendMail.CourierConfig;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.GetBooksResponseDTO;
@@ -44,7 +45,8 @@ public class BookService {
     @Autowired
     private CloudinaryConfig cloudinaryConfig;
 
-//    private final Cloudinary cloudinary = Singleton.getCloudinary();
+    @Autowired
+    private CourierConfig courierConfig;
 
     public GetBooksResponseDTO getBooks(BookFilterDTO bookFilter) {
         final int page = bookFilter.getPage();
@@ -86,17 +88,23 @@ public class BookService {
         book.setUser(user);
         book.setCreatedAt(new Date());
         bookRepository.save(book);
+        courierConfig.sendMail(user.getEmail(), "Add");
     }
 
     public void deleteById(int id) {
+        UserDetailsImpl userDetails = userProvider.getCurrentUser();
+        User user = userRepository.findById(userDetails.getId());
         Book book = bookRepository.findById(id);
         if (book == null) {
             throw new BookNotFoundException(id);
         }
         bookRepository.deleteById(id);
+        courierConfig.sendMail(user.getEmail(), "Delete");
     }
 
     public void updateBook(int id, UpdateBookRequestDTO bookRequest, MultipartFile file) {
+        UserDetailsImpl userDetails = userProvider.getCurrentUser();
+        User user = userRepository.findById(userDetails.getId());
         Book foundBook = bookRepository.findById(id);
         if (foundBook == null) {
             throw new BookNotFoundException(id);
@@ -112,5 +120,7 @@ public class BookService {
         }
         book.setUpdatedAt(new Date());
         bookRepository.save(book);
+        courierConfig.sendMail(user.getEmail(), "Update");
+
     }
 }
