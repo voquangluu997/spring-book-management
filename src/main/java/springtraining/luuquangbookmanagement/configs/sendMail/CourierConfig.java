@@ -4,14 +4,14 @@ import models.SendEnhancedRequestBody;
 import models.SendEnhancedResponseBody;
 import models.SendRequestMessage;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 import services.Courier;
 import services.SendService;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-@Configuration
+@Service
 public class CourierConfig {
 
     @Value("${COURIER_AUTH_TOKEN}")
