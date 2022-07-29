@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,8 +16,6 @@ import java.util.Map;
 
 public class TokenManager implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
     public static final long TOKEN_VALIDITY = 10 * 60 * 60;
     @Value("${jwtSecret}")
     private String jwtSecret;
