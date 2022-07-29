@@ -1,5 +1,6 @@
 package springtraining.luuquangbookmanagement.configs.sendMail;
 
+import lombok.extern.slf4j.Slf4j;
 import models.SendEnhancedRequestBody;
 import models.SendEnhancedResponseBody;
 import models.SendRequestMessage;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Service
+@Slf4j
 public class CourierConfig {
 
     @Value("${COURIER_AUTH_TOKEN}")
@@ -22,22 +24,22 @@ public class CourierConfig {
 
     public void sendMail(String email, String action) {
         Courier.init(courierToken);
-        SendEnhancedRequestBody request = new SendEnhancedRequestBody();
-        SendRequestMessage message = new SendRequestMessage();
-
         HashMap<String, String> to = new HashMap<String, String>();
         to.put("email", email);
+        SendRequestMessage message = new SendRequestMessage();
         message.setTo(to);
         message.setTemplate(courierNotificationId);
 
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("action", action);
         message.setData(data);
+        SendEnhancedRequestBody request = new SendEnhancedRequestBody();
         request.setMessage(message);
         try {
             SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
             System.out.println(response);
         } catch (IOException e) {
+            log.error("could not send email", e);
             e.printStackTrace();
         }
     }

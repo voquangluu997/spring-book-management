@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-
 public class TokenManager implements Serializable {
 
     public static final long TOKEN_VALIDITY = 10 * 60 * 60;
