@@ -24,14 +24,18 @@ public class ExcelReader {
             String title = row.getCell(0).getStringCellValue();
             String description = row.getCell(1).getStringCellValue();
             String author = row.getCell(2).getStringCellValue();
-            AddBookRequest addBookRequest = AddBookRequest.builder()
-                    .title(title)
-                    .description(description)
-                    .author(author)
-                    .build();
+            AddBookRequest addBookRequest = this.buildBookRequest(title, author, description);
             addBookRequestList.add(addBookRequest);
         }
         return addBookRequestList;
+    }
+
+    private AddBookRequest buildBookRequest(String title, String author, String description) {
+        return AddBookRequest.builder()
+                .title(title)
+                .description(description)
+                .author(author)
+                .build();
     }
 
 }
