@@ -1,17 +1,15 @@
-package springtraining.luuquangbookmanagement.controllers.book.dto;
+package springtraining.luuquangbookmanagement.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @Builder
-public class AddBookRequestDTO {
+public class AddBookRequest {
     @NotBlank
     private String title;
 

@@ -12,6 +12,7 @@ import springtraining.luuquangbookmanagement.repositories.entities.Book;
 import springtraining.luuquangbookmanagement.services.book.BookService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/books")
@@ -24,6 +25,13 @@ public class BookController {
     public void add(@Valid AddBookRequestDTO bookRequest, @RequestParam("file") MultipartFile file) {
         bookService.add(bookRequest, file);
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("import")
+    public void addFromExcelFile(@RequestParam("file") MultipartFile file) throws IOException {
+        bookService.addFromExcelFile(file);
+    }
+
 
     @GetMapping("/{id}")
     public Book getById(@PathVariable int id) {

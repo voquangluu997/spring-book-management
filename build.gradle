@@ -51,6 +51,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     testImplementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation "org.apache.poi:poi:5.2.0"
+    implementation "org.apache.poi:poi-ooxml:5.2.0"
 }
 
 tasks.named('test') {

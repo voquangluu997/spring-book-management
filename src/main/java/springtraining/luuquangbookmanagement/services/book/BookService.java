@@ -1,13 +1,14 @@
 package springtraining.luuquangbookmanagement.services.book;
 
 import com.cloudinary.utils.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import springtraining.luuquangbookmanagement.configs.cloudinary.CloudinaryConfig;
+import springtraining.luuquangbookmanagement.configs.excelFile.ExcelReader;
 import springtraining.luuquangbookmanagement.configs.sendMail.CourierConfig;
 import springtraining.luuquangbookmanagement.controllers.book.dto.AddBookRequestDTO;
 import springtraining.luuquangbookmanagement.controllers.book.dto.BookFilterDTO;
@@ -17,6 +18,7 @@ import springtraining.luuquangbookmanagement.converters.BookConverter;
 import springtraining.luuquangbookmanagement.exceptions.BadRequestException;
 import springtraining.luuquangbookmanagement.exceptions.BookNotFoundException;
 import springtraining.luuquangbookmanagement.exceptions.NotFoundException;
+import springtraining.luuquangbookmanagement.model.AddBookRequest;
 import springtraining.luuquangbookmanagement.providers.UserProvider;
 import springtraining.luuquangbookmanagement.repositories.BookRepository;
 import springtraining.luuquangbookmanagement.repositories.UserRepository;
@@ -26,27 +28,25 @@ import springtraining.luuquangbookmanagement.securities.services.UserDetailsImpl
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
+@AllArgsConstructor
 public class BookService {
-    @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private UserProvider userProvider;
 
-    @Autowired
     private BookConverter converter;
 
-    @Autowired
     private CloudinaryConfig cloudinaryConfig;
 
-    @Autowired
     private CourierConfig courierConfig;
+
+    private ExcelReader excelReader;
 
     public GetBooksResponseDTO getBooks(BookFilterDTO bookFilter) {
         final int page = bookFilter.getPage();
@@ -71,6 +71,19 @@ public class BookService {
             return book;
         }
         throw new BookNotFoundException(id);
+    }
+
+    public void addFromExcelFile(MultipartFile file) throws IOException {
+        List<AddBookRequest> addBookRequestList = excelReader.readBookFromExcelFile(file);
+        UserDetailsImpl userDetails = userProvider.getCurrentUser();
+        User user = userRepository.findById(userDetails.getId());
+        for (AddBookRequest addBookModel : addBookRequestList) {
+            Book book = converter.convertAddBookModelToBookEntity(addBookModel);
+            book.setUser(user);
+            book.setCreatedAt(new Date());
+            bookRepository.save(book);
+        }
+        courierConfig.sendMail(user.getEmail(), "Import list");
     }
 
     public void add(AddBookRequestDTO bookRequest, MultipartFile file) {
